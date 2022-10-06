@@ -20,14 +20,14 @@
     {{ breadcrumb.ignoreTranslate ? (breadcrumb.labelFunction ? breadcrumb.labelFunction() : breadcrumb.label) : (breadcrumb.label | translate) }}
   </h1>
   <span fxHide.lt-md fxLayout="row" *ngFor="let breadcrumb of breadcrumbs$ | async; trackBy: trackByBreadcrumbs; last as isLast;" [ngSwitch]="isLast">
-	    <a *ngSwitchCase="false" [routerLink]="breadcrumb.link" [queryParams]="breadcrumb.queryParams">
-        <mat-icon *ngIf="breadcrumb.isMdiIcon" [svgIcon]="breadcrumb.icon">
-	    	</mat-icon>
-        <mat-icon *ngIf="!breadcrumb.isMdiIcon" class="material-icons">
-          {{ breadcrumb.icon }}
-        </mat-icon>
-        {{ breadcrumb.ignoreTranslate ? (breadcrumb.labelFunction ? breadcrumb.labelFunction() : breadcrumb.label) : (breadcrumb.label | translate) }}
-	    </a>
+    <a *ngSwitchCase="false" [routerLink]="breadcrumb.link" [queryParams]="breadcrumb.queryParams">
+      <mat-icon *ngIf="breadcrumb.isMdiIcon" [svgIcon]="breadcrumb.icon">
+      </mat-icon>
+      <mat-icon *ngIf="!breadcrumb.isMdiIcon" class="material-icons">
+        {{ breadcrumb.icon }}
+      </mat-icon>
+      {{ breadcrumb.ignoreTranslate ? (breadcrumb.labelFunction ? breadcrumb.labelFunction() : breadcrumb.label) : (breadcrumb.label | translate) }}
+    </a>
     <div *ngSwitchCase="true">
       <tb-rulechain-select
         *ngIf="!activeComponentValue.isImport && (breadcrumb.routeConfigPath === ':ruleChainId')"
@@ -45,7 +45,6 @@
         {{ breadcrumb.ignoreTranslate ? (breadcrumb.labelFunction ? breadcrumb.labelFunction() : breadcrumb.label) : (breadcrumb.label | translate) }}
       </span>
     </div>
-
-	    <span class="divider" [fxHide]="isLast"> > </span>
+    <span class="divider" [fxHide]="isLast"> > </span>
 	</span>
 </div>
