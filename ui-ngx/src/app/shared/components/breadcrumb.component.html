@@ -28,7 +28,15 @@
         </mat-icon>
         {{ breadcrumb.ignoreTranslate ? (breadcrumb.labelFunction ? breadcrumb.labelFunction() : breadcrumb.label) : (breadcrumb.label | translate) }}
 	    </a>
-	    <span *ngSwitchCase="true">
+    <div *ngSwitchCase="true">
+      <tb-rulechain-select
+        *ngIf="!activeComponentValue.isImport && (breadcrumb.routeConfigPath === ':ruleChainId')"
+        [ruleChainType]="activeComponentValue.ruleChainType"
+        [disabled]="activeComponentValue.isDirtyValue"
+        [(ngModel)]="activeComponentValue.ruleChain.id.id"
+        (ngModelChange)="currentRuleChainIdChanged(activeComponentValue.ruleChain.id?.id)">
+      </tb-rulechain-select>
+      <span *ngIf="(breadcrumb.routeConfigPath !== ':ruleChainId')">
         <mat-icon *ngIf="breadcrumb.isMdiIcon" [svgIcon]="breadcrumb.icon">
 	    	</mat-icon>
 	    	<mat-icon *ngIf="!breadcrumb.isMdiIcon" class="material-icons">
@@ -36,6 +44,8 @@
 	    	</mat-icon>
         {{ breadcrumb.ignoreTranslate ? (breadcrumb.labelFunction ? breadcrumb.labelFunction() : breadcrumb.label) : (breadcrumb.label | translate) }}
       </span>
+    </div>
+
 	    <span class="divider" [fxHide]="isLast"> > </span>
 	</span>
 </div>

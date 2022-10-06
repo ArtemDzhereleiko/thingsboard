@@ -22,6 +22,7 @@ import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { guid } from '@core/utils';
 import { BroadcastService } from '@core/services/broadcast.service';
+import { RuleChainType } from '@shared/models/rule-chain.models';
 
 @Component({
   selector: 'tb-breadcrumb',
@@ -119,7 +120,8 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
           icon,
           isMdiIcon,
           link,
-          queryParams: null
+          queryParams: null,
+          routeConfigPath: route.routeConfig.path
         };
         newBreadcrumbs = [...breadcrumbs, breadcrumb];
       }
@@ -128,6 +130,24 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
       return this.buildBreadCrumbs(route.firstChild, newBreadcrumbs, lastChild);
     }
     return newBreadcrumbs;
+  }
+
+  currentRuleChainIdChanged(ruleChainId: string) {
+    if (this.activeComponentValue.isEditingRuleNode) {
+      return;
+    }
+    if (this.activeComponentValue?.ruleChainType === RuleChainType.CORE) {
+      this.router.navigateByUrl(`ruleChains/${ruleChainId}`);
+    } else if (this.activeComponentValue?.ruleChainType === RuleChainType.EDGE) {
+      let breadcrumbs;
+      const breadSub = this.breadcrumbs$.subscribe(value => breadcrumbs = value);
+      breadSub.unsubscribe();
+      this.router.navigateByUrl(
+        `${breadcrumbs[0].routeConfigPath}` +
+        `/${breadcrumbs[0].routeConfigPath === 'edgeInstances' ? this.activeComponentValue.route.params._value.edgeId + '/' : ''}` +
+        `ruleChains/${ruleChainId}`
+      );
+    }
   }
 
   trackByBreadcrumbs(index: number, breadcrumb: BreadCrumb){

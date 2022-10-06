@@ -26,6 +26,7 @@ export interface BreadCrumb extends HasUUID{
   isMdiIcon: boolean;
   link: any[];
   queryParams: Params;
+  routeConfigPath?: string;
 }
 
 export type BreadCrumbLabelFunction<C> = (route: ActivatedRouteSnapshot, translate: TranslateService, component: C, data?: any) => string;
